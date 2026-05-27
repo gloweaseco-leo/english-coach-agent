@@ -1,12 +1,13 @@
 {
   "name": "english-coach-agent",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "description": "A local English learning coach built on byoungd/English-level-up-tips.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=18"

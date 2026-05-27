@@ -2,103 +2,80 @@
 
 [简体中文](README.zh-CN.md) | English
 
-Local English learning coach built as a secondary development project based on
+Local English learning coach based on
 [`byoungd/English-level-up-tips`](https://github.com/byoungd/English-level-up-tips).
+
+**v0.3 RAG Coach**: optional LLM providers + lightweight chapter retrieval for grounded chat with references.
 
 ## Attribution And License Notice
 
-This project is based on the open source learning guide:
+CC BY-NC 4.0 — non-commercial learning tool only. Do not use for commercial products, paid courses, SaaS, or resale without permission from the original rights holder, or replace with your own licensed content.
 
-- Original project: [`byoungd/English-level-up-tips`](https://github.com/byoungd/English-level-up-tips)
-- Original author/repository owner: `byoungd`
-- Original online guide: <https://byoungd.github.io/English-level-up-tips/#/>
-- Original content license: Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+## Quick Start
 
-The original guide requires attribution and non-commercial use. This project is
-intended as a non-commercial learning tool and does not bundle the original
-guide content. It reads a local copy of `English-level-up-tips/docs` at runtime.
-
-Do not use this derivative project, or the original guide content it depends on,
-for commercial products, paid courses, SaaS, paid tutoring, resale, or other
-commercial purposes unless you obtain separate permission from the original
-rights holder.
-
-## Quick Setup
-
-Prerequisites:
-
-- Git
-- Node.js 18 or newer
-
-Choose the command block that matches your terminal. These commands create a
-workspace folder, clone this project and the original guide side by side, then
-start the local server.
-
-### Windows PowerShell
+### Local mode (default, no API key)
 
 ```powershell
-New-Item -ItemType Directory -Force english-coach-workspace | Out-Null
-Set-Location english-coach-workspace
-if (-not (Test-Path english-coach-agent)) { git clone https://github.com/gloweaseco-leo/english-coach-agent.git }
-if (-not (Test-Path English-level-up-tips)) { git clone https://github.com/byoungd/English-level-up-tips.git }
-Set-Location english-coach-agent
 npm start
 ```
 
-### Windows Command Prompt
+### OpenAI-compatible
 
-```bat
-mkdir english-coach-workspace 2>nul
-cd english-coach-workspace
-if not exist english-coach-agent git clone https://github.com/gloweaseco-leo/english-coach-agent.git
-if not exist English-level-up-tips git clone https://github.com/byoungd/English-level-up-tips.git
-cd english-coach-agent
+```powershell
+$env:COACH_MODE="openai"
+$env:OPENAI_COMPATIBLE_BASE_URL="https://api.openai.com/v1"
+$env:OPENAI_COMPATIBLE_API_KEY="your-key-here"
+$env:OPENAI_COMPATIBLE_MODEL="gpt-4o-mini"
 npm start
 ```
 
-### macOS, Linux, Or Git Bash
+### Ollama (optional)
 
-```bash
-mkdir -p english-coach-workspace
-cd english-coach-workspace
-[ -d english-coach-agent ] || git clone https://github.com/gloweaseco-leo/english-coach-agent.git
-[ -d English-level-up-tips ] || git clone https://github.com/byoungd/English-level-up-tips.git
-cd english-coach-agent
+```powershell
+$env:COACH_MODE="ollama"
+$env:OLLAMA_BASE_URL="http://127.0.0.1:11434"
+$env:OLLAMA_MODEL="qwen2.5:7b"
 npm start
 ```
 
-Open:
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `COACH_MODE` | `local` | `local` / `openai` / `ollama` |
+| `LLM_TIMEOUT_MS` | `20000` | LLM timeout (ms) |
+| `RAG_TOP_K` | `5` | Retrieval top K |
 
-```text
-http://127.0.0.1:4173
-```
+API keys are read from environment variables only — never exposed to the frontend.
 
-## What It Does
+On missing config or LLM failure, the app falls back to local rule-based coaching.
 
-- Reads `../English-level-up-tips/docs` by default
-- Lists the guide chapters
-- Generates a study plan from level, goal, days, and daily minutes
-- Provides a local coaching chat with chapter references
-- Reviews pasted writing or speaking scripts with heuristic feedback
+## v0.3 Features
 
-This first version is fully local and does not call any external AI API.
+- Provider abstraction: Local Rule / OpenAI-compatible / Ollama
+- Lightweight RAG: heading-based chunks + keyword scoring (not embedding/vector DB)
+- Grounded chat with `[1][2]` references, profile, and today’s task
+- `GET /api/search?q=...`
+- v0.2 learning loop fully preserved
 
 ## API
 
 ```text
 GET  /api/health
-GET  /api/chapters
-GET  /api/chapter?path=threads/part-1/7-ai.md
+GET  /api/search?q=listening
+GET  /api/state
 POST /api/chat
-POST /api/plan
-POST /api/review
+... (all v0.2 endpoints)
 ```
 
-## Optional Content Path
+## Tests
 
-Use another copy of the source guide:
-
-```powershell
-$env:ENGLISH_TIPS_ROOT="D:\path\to\English-level-up-tips\docs"
-npm start
+```bash
+npm test
 ```
+
+## Data reset
+
+Delete `.data/learning-state.json` (or `.data/`) while the server is stopped.
+
+## Notes
+
+Default mode requires no external AI. LLM is optional. RAG is local keyword retrieval, not a vector database.

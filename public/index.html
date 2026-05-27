@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
+    <div id="setupBanner" class="setup-banner hidden"></div>
+
     <aside class="sidebar">
       <div class="brand">
         <span class="mark">EC</span>
         <div>
           <h1>English Coach</h1>
-          <p>基于 English-level-up-tips 的本地学习 Agent</p>
+          <p>v0.3 RAG Coach · 本地非商业学习工具</p>
         </div>
       </div>
 
@@ -35,6 +37,26 @@
           每天分钟
           <input id="minutes" type="number" min="15" max="180" value="45" />
         </label>
+        <fieldset class="weak-areas">
+          <legend>薄弱项（多选）</legend>
+          <label><input type="checkbox" name="weakArea" value="listening" /> 听力</label>
+          <label><input type="checkbox" name="weakArea" value="speaking" /> 口语</label>
+          <label><input type="checkbox" name="weakArea" value="vocabulary" /> 词汇</label>
+          <label><input type="checkbox" name="weakArea" value="reading" /> 阅读</label>
+          <label><input type="checkbox" name="weakArea" value="writing" /> 写作</label>
+          <label><input type="checkbox" name="weakArea" value="ai" /> AI 辅助学习</label>
+        </fieldset>
+        <label>
+          使用场景
+          <select id="scenario">
+            <option value="daily">日常提升</option>
+            <option value="exam">考试</option>
+            <option value="workplace">职场</option>
+            <option value="abroad">出国</option>
+            <option value="reading">阅读原版</option>
+            <option value="speaking">口语交流</option>
+          </select>
+        </label>
         <button id="saveProfile">保存档案</button>
       </section>
 
@@ -53,13 +75,26 @@
       </nav>
 
       <section id="coach" class="view active">
+        <div id="coachMeta" class="coach-meta hidden"></div>
+        <div id="providerWarning" class="provider-warning hidden"></div>
+        <div id="todayCoach" class="today-card hidden"></div>
         <div class="hero">
           <div>
-            <p class="eyebrow">Local Agent</p>
+            <p class="eyebrow">Local Agent · v0.3</p>
             <h2>把教程变成每天可执行的训练闭环</h2>
           </div>
-          <button id="quickPlan">生成 14 天计划</button>
+          <button id="quickPlan" class="needs-content">生成 14 天计划</button>
         </div>
+        <section class="search-panel">
+          <label>
+            搜索章节（调试）
+            <div class="search-row">
+              <input id="searchQuery" type="text" placeholder="例如：listening 听力" />
+              <button type="button" id="searchBtn" class="needs-content">搜索</button>
+            </div>
+          </label>
+          <div id="searchResults" class="search-results"></div>
+        </section>
         <div id="messages" class="messages"></div>
         <form id="chatForm" class="composer">
           <textarea id="message" rows="3" placeholder="例如：我听力很差，如何用这份指南安排 30 天训练？"></textarea>
@@ -75,9 +110,25 @@
           </div>
           <div class="inline-controls">
             <input id="days" type="number" min="3" max="90" value="14" />
-            <button id="makePlan">生成</button>
+            <button id="makePlan" class="needs-content">生成</button>
           </div>
         </div>
+        <div id="planStats" class="plan-stats hidden">
+          <div class="stat-block">
+            <span class="stat-label">总进度</span>
+            <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+            <span id="progressText" class="stat-value">0%</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-label">完成天数</span>
+            <span id="statCompletedDays" class="stat-value">0</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-label">连续学习</span>
+            <span id="statStreak" class="stat-value">0 天</span>
+          </div>
+        </div>
+        <div id="todayPlan" class="today-card hidden"></div>
         <div id="planList" class="plan-list"></div>
       </section>
 
@@ -85,9 +136,10 @@
         <div class="toolbar">
           <div>
             <h2>练习反馈</h2>
-            <p>贴作文、口语稿或复盘文本，Agent 会给出结构化反馈。</p>
+            <p>贴作文、口语稿或复盘文本，获取结构化修订清单。</p>
           </div>
         </div>
+        <input type="hidden" id="practiceTaskId" value="" />
         <div class="practice-grid">
           <label>
             类型
@@ -105,10 +157,12 @@
         </div>
         <textarea id="practiceText" rows="12" placeholder="Paste your English text here..."></textarea>
         <button id="reviewPractice">获取反馈</button>
+        <div id="reviewStructured" class="review-structured hidden"></div>
         <pre id="reviewResult" class="result"></pre>
       </section>
 
       <section id="reader" class="view">
+        <div id="readerRefBanner" class="ref-banner hidden"></div>
         <div class="toolbar">
           <div>
             <h2 id="readerTitle">阅读</h2>
