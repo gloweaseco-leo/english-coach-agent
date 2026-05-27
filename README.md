@@ -1,5 +1,7 @@
 # English Coach Agent
 
+[简体中文](README.zh-CN.md) | English
+
 Local English learning coach built as a secondary development project based on
 [`byoungd/English-level-up-tips`](https://github.com/byoungd/English-level-up-tips).
 
