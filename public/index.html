@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>English Coach Agent</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="mark">EC</span>
+        <div>
+          <h1>English Coach</h1>
+          <p>基于 English-level-up-tips 的本地学习 Agent</p>
+        </div>
+      </div>
+
+      <section class="panel profile-panel">
+        <h2>学习档案</h2>
+        <label>
+          水平
+          <select id="level">
+            <option>A1-A2</option>
+            <option selected>B1</option>
+            <option>B2</option>
+            <option>C1+</option>
+          </select>
+        </label>
+        <label>
+          目标
+          <input id="goal" value="提升听说读写综合能力" />
+        </label>
+        <label>
+          每天分钟
+          <input id="minutes" type="number" min="15" max="180" value="45" />
+        </label>
+        <button id="saveProfile">保存档案</button>
+      </section>
+
+      <section class="panel">
+        <h2>章节</h2>
+        <div id="chapters" class="chapter-list"></div>
+      </section>
+    </aside>
+
+    <main class="workspace">
+      <nav class="tabs">
+        <button class="tab active" data-tab="coach">教练</button>
+        <button class="tab" data-tab="plan">计划</button>
+        <button class="tab" data-tab="practice">练习反馈</button>
+        <button class="tab" data-tab="reader">阅读</button>
+      </nav>
+
+      <section id="coach" class="view active">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Local Agent</p>
+            <h2>把教程变成每天可执行的训练闭环</h2>
+          </div>
+          <button id="quickPlan">生成 14 天计划</button>
+        </div>
+        <div id="messages" class="messages"></div>
+        <form id="chatForm" class="composer">
+          <textarea id="message" rows="3" placeholder="例如：我听力很差，如何用这份指南安排 30 天训练？"></textarea>
+          <button type="submit">发送</button>
+        </form>
+      </section>
+
+      <section id="plan" class="view">
+        <div class="toolbar">
+          <div>
+            <h2>学习计划</h2>
+            <p id="planOverview">还没有生成计划。</p>
+          </div>
+          <div class="inline-controls">
+            <input id="days" type="number" min="3" max="90" value="14" />
+            <button id="makePlan">生成</button>
+          </div>
+        </div>
+        <div id="planList" class="plan-list"></div>
+      </section>
+
+      <section id="practice" class="view">
+        <div class="toolbar">
+          <div>
+            <h2>练习反馈</h2>
+            <p>贴作文、口语稿或复盘文本，Agent 会给出结构化反馈。</p>
+          </div>
+        </div>
+        <div class="practice-grid">
+          <label>
+            类型
+            <select id="practiceType">
+              <option>作文</option>
+              <option>口语稿</option>
+              <option>学习复盘</option>
+              <option>翻译练习</option>
+            </select>
+          </label>
+          <label>
+            重点
+            <input id="practiceFocus" value="表达清晰度" />
+          </label>
+        </div>
+        <textarea id="practiceText" rows="12" placeholder="Paste your English text here..."></textarea>
+        <button id="reviewPractice">获取反馈</button>
+        <pre id="reviewResult" class="result"></pre>
+      </section>
+
+      <section id="reader" class="view">
+        <div class="toolbar">
+          <div>
+            <h2 id="readerTitle">阅读</h2>
+            <p id="readerPath">选择左侧章节开始。</p>
+          </div>
+        </div>
+        <article id="readerContent" class="reader-content"></article>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

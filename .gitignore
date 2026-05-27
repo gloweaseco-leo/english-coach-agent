@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+*.log
+logs/
+tmp/
+dist/
+.DS_Store
+Thumbs.db
+
+# Do not vendor the source guide into this repository.
+English-level-up-tips/
+docs-source/
