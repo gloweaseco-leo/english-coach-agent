@@ -25,8 +25,24 @@ rights holder.
 
 ## Run
 
+Clone this repository:
+
 ```powershell
-cd C:\Users\liu\english-coach-agent
+git clone https://github.com/gloweaseco-leo/english-coach-agent.git
+cd english-coach-agent
+```
+
+Clone the source guide next to this project:
+
+```powershell
+cd ..
+git clone https://github.com/byoungd/English-level-up-tips.git
+cd english-coach-agent
+```
+
+Start the local server:
+
+```powershell
 npm start
 ```
 
@@ -38,7 +54,7 @@ http://127.0.0.1:4173
 
 ## What It Does
 
-- Reads `C:\Users\liu\English-level-up-tips\docs`
+- Reads `../English-level-up-tips/docs` by default
 - Lists the guide chapters
 - Generates a study plan from level, goal, days, and daily minutes
 - Provides a local coaching chat with chapter references

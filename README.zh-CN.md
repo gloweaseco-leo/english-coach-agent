@@ -21,8 +21,24 @@ English Coach Agent 是一个本地英语学习教练，是基于
 
 ## 运行方式
 
+克隆本项目：
+
 ```powershell
-cd C:\Users\liu\english-coach-agent
+git clone https://github.com/gloweaseco-leo/english-coach-agent.git
+cd english-coach-agent
+```
+
+把原指南仓库克隆到本项目旁边：
+
+```powershell
+cd ..
+git clone https://github.com/byoungd/English-level-up-tips.git
+cd english-coach-agent
+```
+
+启动本地服务：
+
+```powershell
 npm start
 ```
 
@@ -34,7 +50,7 @@ http://127.0.0.1:4173
 
 ## 功能
 
-- 读取 `C:\Users\liu\English-level-up-tips\docs`
+- 默认读取 `../English-level-up-tips/docs`
 - 展示原指南章节目录
 - 根据英语水平、学习目标、计划天数和每日学习时间生成学习计划
 - 提供本地教练聊天，并返回相关章节引用
