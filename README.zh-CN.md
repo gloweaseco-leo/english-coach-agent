@@ -19,26 +19,45 @@ English Coach Agent 是一个本地英语学习教练，是基于
 
 请不要在未取得原权利人单独授权的情况下，将本项目或其依赖的原指南内容用于商业产品、付费课程、SaaS、付费辅导、转售或其他商业用途。
 
-## 运行方式
+## 快速部署
 
-克隆本项目：
+前置要求：
+
+- Git
+- Node.js 18 或更高版本
+
+请选择与你当前终端匹配的命令。下面的命令会创建一个工作目录，把本项目和原指南仓库并排克隆下来，然后启动本地服务。
+
+### Windows PowerShell
 
 ```powershell
-git clone https://github.com/gloweaseco-leo/english-coach-agent.git
-cd english-coach-agent
+New-Item -ItemType Directory -Force english-coach-workspace | Out-Null
+Set-Location english-coach-workspace
+if (-not (Test-Path english-coach-agent)) { git clone https://github.com/gloweaseco-leo/english-coach-agent.git }
+if (-not (Test-Path English-level-up-tips)) { git clone https://github.com/byoungd/English-level-up-tips.git }
+Set-Location english-coach-agent
+npm start
 ```
 
-把原指南仓库克隆到本项目旁边：
+### Windows 命令提示符
 
-```powershell
-cd ..
-git clone https://github.com/byoungd/English-level-up-tips.git
+```bat
+mkdir english-coach-workspace 2>nul
+cd english-coach-workspace
+if not exist english-coach-agent git clone https://github.com/gloweaseco-leo/english-coach-agent.git
+if not exist English-level-up-tips git clone https://github.com/byoungd/English-level-up-tips.git
 cd english-coach-agent
+npm start
 ```
 
-启动本地服务：
+### macOS、Linux 或 Git Bash
 
-```powershell
+```bash
+mkdir -p english-coach-workspace
+cd english-coach-workspace
+[ -d english-coach-agent ] || git clone https://github.com/gloweaseco-leo/english-coach-agent.git
+[ -d English-level-up-tips ] || git clone https://github.com/byoungd/English-level-up-tips.git
+cd english-coach-agent
 npm start
 ```
 

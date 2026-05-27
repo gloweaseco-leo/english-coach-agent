@@ -23,26 +23,47 @@ for commercial products, paid courses, SaaS, paid tutoring, resale, or other
 commercial purposes unless you obtain separate permission from the original
 rights holder.
 
-## Run
+## Quick Setup
 
-Clone this repository:
+Prerequisites:
+
+- Git
+- Node.js 18 or newer
+
+Choose the command block that matches your terminal. These commands create a
+workspace folder, clone this project and the original guide side by side, then
+start the local server.
+
+### Windows PowerShell
 
 ```powershell
-git clone https://github.com/gloweaseco-leo/english-coach-agent.git
-cd english-coach-agent
+New-Item -ItemType Directory -Force english-coach-workspace | Out-Null
+Set-Location english-coach-workspace
+if (-not (Test-Path english-coach-agent)) { git clone https://github.com/gloweaseco-leo/english-coach-agent.git }
+if (-not (Test-Path English-level-up-tips)) { git clone https://github.com/byoungd/English-level-up-tips.git }
+Set-Location english-coach-agent
+npm start
 ```
 
-Clone the source guide next to this project:
+### Windows Command Prompt
 
-```powershell
-cd ..
-git clone https://github.com/byoungd/English-level-up-tips.git
+```bat
+mkdir english-coach-workspace 2>nul
+cd english-coach-workspace
+if not exist english-coach-agent git clone https://github.com/gloweaseco-leo/english-coach-agent.git
+if not exist English-level-up-tips git clone https://github.com/byoungd/English-level-up-tips.git
 cd english-coach-agent
+npm start
 ```
 
-Start the local server:
+### macOS, Linux, Or Git Bash
 
-```powershell
+```bash
+mkdir -p english-coach-workspace
+cd english-coach-workspace
+[ -d english-coach-agent ] || git clone https://github.com/gloweaseco-leo/english-coach-agent.git
+[ -d English-level-up-tips ] || git clone https://github.com/byoungd/English-level-up-tips.git
+cd english-coach-agent
 npm start
 ```
 
